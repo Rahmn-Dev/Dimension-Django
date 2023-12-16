@@ -1,29 +1,51 @@
+# knapsack_app/views.py
 from django.shortcuts import render
+from .forms import KnapsackForm
 from .models import Item
 
 def knapsack_greedy(request):
     if request.method == 'POST':
-        capacity = int(request.POST.get('capacity'))
-        items = Item.objects.all().order_by('-price')
+        form = KnapsackForm(request.POST)
+        if form.is_valid():
+            capacity = form.cleaned_data['capacity']
+            num_items = form.cleaned_data['num_items']
+            
+            # Mengambil data barang dari form
+            items_data = []
+            for i in range(num_items):
+                name = form.cleaned_data[f'name_{i}']
+                price = form.cleaned_data[f'price_{i}']
+                weight = form.cleaned_data[f'weight_{i}']
 
-        selected_items = []
-        current_weight = 0
-        total_price = 0
+                # Membuat instance Item dari data
+                item = Item(name=name, price=price, weight=weight)
+                items_data.append(item)
+            
+            # Sekarang Anda memiliki data barang yang dapat diproses
+            # Lanjutkan dengan implementasi algoritma knapsack
+            total_price, selected_items = knapsack_greedy_algorithm(items_data, capacity)
 
-        for item in items:
-            if current_weight + item.weight <= capacity:
-                selected_items.append(item)
-                current_weight += item.weight
-                total_price += item.price
+            return render(request, 'results.html', {'selected_items': selected_items, 'total_price': total_price})
 
-        context = {
-            'capacity': capacity,
-            'selected_items': selected_items,
-            'total_price': total_price,
-        }
+    else:
+        form = KnapsackForm()
 
-        return render(request, 'results.html', context)
+    return render(request, 'knapsack_form.html', {'form': form})
 
-    num_items = 5  
-    item_range = range(num_items)
-    return render(request, 'knapsack_form.html', {'num_items': num_items, 'item_range': item_range})
+
+
+# knapsack_app/views.py
+def knapsack_greedy_algorithm(items, capacity):
+    items.sort(key=lambda x: x.price / x.weight, reverse=True)
+
+    total_price = 0
+    total_weight = 0
+    selected_items = []
+
+    for item in items:
+        if total_weight + item.weight <= capacity:
+            total_price += item.price
+            total_weight += item.weight
+            selected_items.append(item)
+
+    return total_price, selected_items

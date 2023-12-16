@@ -1,22 +1,9 @@
-<form method="post">
+
+{% block content %}
+  <h2>Formulir Knapsack</h2>
+  <form method="post" action="{% url 'knapsack_greedy' %}">
     {% csrf_token %}
-    <label for="capacity">Masukkan Kapasitas Kantong:</label>
-    <input type="number" name="capacity" required>
-    <br>
-    <label for="num_items">Masukkan Jumlah Barang:</label>
-    <input type="number" name="num_items" required>
-    <br>
-    {% for i in item_range %}
-        <h3>Barang-{{ i|add:1 }}</h3>
-        <label for="name">Nama:</label>
-        <input type="text" name="name{{ i }}" required>
-        <br>
-        <label for="price">Harga:</label>
-        <input type="number" name="price{{ i }}" required>
-        <br>
-        <label for="weight">Berat(kg):</label>
-        <input type="number" name="weight{{ i }}" required>
-        <br>
-    {% endfor %}
-    <input type="submit" value="Hitung">
-</form>
+    {{ form.as_p }}
+    <button type="submit">Hitung Knapsack</button>
+  </form>
+{% endblock %}

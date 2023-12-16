@@ -1,9 +1,24 @@
-<!-- knapsack/templates/knapsack/result.html -->
-<h2>Hasil Pemilihan Barang:</h2>
-<p>Kapasitas Kantong: {{ capacity }}</p>
-<p>Total Harga: {{ total_price }}</p>
-<ul>
-    {% for item in selected_items %}
-        <li>{{ item.name }} - Harga: {{ item.price }} - Berat: {{ item.weight }} kg</li>
-    {% endfor %}
-</ul>
+
+{% block content %}
+  <h2>Hasil Knapsack</h2>
+  <p>Barang yang dimasukkan ke dalam knapsack:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Harga</th>
+        <th>Berat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in selected_items %}
+        <tr>
+          <td>{{ item.name|title }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.weight }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p>Total Harga yang dapat dimasukkan ke dalam knapsack: {{ total_price }}</p>
+{% endblock %}
