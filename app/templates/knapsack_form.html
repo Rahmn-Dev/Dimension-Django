@@ -1,0 +1,23 @@
+<!-- knapsack/templates/knapsack/knapsack_form.html -->
+<form method="post">
+    {% csrf_token %}
+    <label for="capacity">Masukkan Kapasitas Kantong:</label>
+    <input type="number" name="capacity" required>
+    <br>
+    <label for="num_items">Masukkan Jumlah Barang:</label>
+    <input type="number" name="num_items" required>
+    <br>
+    {% for i in range(num_items) %}
+        <h3>Barang-{{ i+1 }}</h3>
+        <label for="name">Nama:</label>
+        <input type="text" name="name{{ i }}" required>
+        <br>
+        <label for="price">Harga:</label>
+        <input type="number" name="price{{ i }}" required>
+        <br>
+        <label for="weight">Berat(kg):</label>
+        <input type="number" name="weight{{ i }}" required>
+        <br>
+    {% endfor %}
+    <input type="submit" value="Hitung">
+</form>
