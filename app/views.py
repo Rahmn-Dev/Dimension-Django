@@ -1,4 +1,3 @@
-# knapsack/views.py
 from django.shortcuts import render
 from .models import Item
 
@@ -23,6 +22,8 @@ def knapsack_greedy(request):
             'total_price': total_price,
         }
 
-        return render(request, 'knapsack/result.html', context)
+        return render(request, 'results.html', context)
 
-    return render(request, 'knapsack/knapsack_form.html')
+    num_items = 5  
+    item_range = range(num_items)
+    return render(request, 'knapsack_form.html', {'num_items': num_items, 'item_range': item_range})

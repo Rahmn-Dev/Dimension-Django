@@ -1,0 +1,9 @@
+<!-- knapsack/templates/knapsack/result.html -->
+<h2>Hasil Pemilihan Barang:</h2>
+<p>Kapasitas Kantong: {{ capacity }}</p>
+<p>Total Harga: {{ total_price }}</p>
+<ul>
+    {% for item in selected_items %}
+        <li>{{ item.name }} - Harga: {{ item.price }} - Berat: {{ item.weight }} kg</li>
+    {% endfor %}
+</ul>
