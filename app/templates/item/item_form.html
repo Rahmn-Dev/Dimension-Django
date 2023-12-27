@@ -1,0 +1,35 @@
+<div>
+  <form method="post" action="{% url 'item_form' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Tambah Item</button>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>value</th>
+      <th>price</th>
+      <th>Weight</th>
+      <th>length</th>
+      <th>width</th>
+      <th>aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.value }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.weight }}</td>
+        <td>{{ item.length }}</td>
+        <td>{{ item.width }}</td>
+        <td><a href="delete/{{ item.id }}/"><i class="fa-solid fa-trash"></i></a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'knapsack_form' %}">Back to Knapsack Form</a>
+</div>

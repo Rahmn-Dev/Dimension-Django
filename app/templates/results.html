@@ -1,24 +1,62 @@
+<!DOCTYPE html>
 
-{% block content %}
-  <h2>Hasil Knapsack</h2>
-  <p>Barang yang dimasukkan ke dalam knapsack:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Nama</th>
-        <th>Harga</th>
-        <th>Berat</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in selected_items %}
-        <tr>
-          <td>{{ item.name|title }}</td>
-          <td>{{ item.price }}</td>
-          <td>{{ item.weight }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <p>Total Harga yang dapat dimasukkan ke dalam knapsack: {{ total_price }}</p>
-{% endblock %}
+<html
+ 
+lang="en">
+
+<head>
+
+    
+<meta
+ 
+charset="UTF-8">
+
+    
+<meta
+ 
+name="viewport"
+ 
+content="width=device-width, initial-scale=1.0">
+
+    
+<title>Hasil Knapsack Greedy</title>
+</head>
+<body>
+    <h1>Hasil Knapsack Greedy</h1>
+    <h2>Container: {{ selected_container.name }}</h2>
+    <p>Kapasitas berat: {{ selected_container.capacity_weight }}</p>
+    <p>Kapasitas panjang: {{ selected_container.capacity_length }}</p>
+    <p>Kapasitas lebar: {{ selected_container.capacity_width }}</p>
+    <h3>Barang yang dimasukkan:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Barang</th>
+                <th>Harga</th>
+                <th>Berat</th>
+                <th>Panjang</th>
+                <th>Lebar</th>
+                <th>Nilai</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in selected_items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.weight }}</td>
+                <td>{{ item.length }}</td>
+                <td>{{ item.width }}</td>
+                <td>{{ item.value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Nilai total barang yang dimasukkan: {{ total_value }}</p>
+    <p>Total harga barang yang dimasukkan: {{ total_price }}</p>
+    <hr>
+    <h3>Truck yang dapat digunakan: {{ selected_truck.name }}, dengan kapasitas berat: {{ selected_truck.capacity_weight }}</h3>
+    
+    <a href="{% url 'knapsack_form' %}">Back to Knapsack Form</a>
+</body>
+</html>

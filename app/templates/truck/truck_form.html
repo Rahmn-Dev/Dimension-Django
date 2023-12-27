@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html
+ 
+lang="en">
+
+<head>
+
+    
+<meta
+ 
+charset="UTF-8">
+
+    
+<meta
+ 
+name="viewport"
+ 
+content="width=device-width, initial-scale=1.0">
+
+    
+<title>Tambah Truck</title>
+</head>
+<body>
+    <h1>Tambah Truck</h1>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'truck_form' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Simpan</button>
+    </form>
+    <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>capacity_weight</th>
+            <th>aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for truck in trucks %}
+            <tr>
+              <td>{{ truck.name }}</td>
+              <td>{{ truck.capacity_weight }}</td>
+              <td><a href="delete/{{ truck.id }}/"><i class="fa-solid fa-trash"></i></a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{% url 'knapsack_form' %}">Back to Knapsack Form</a>
+</body>
+</html>

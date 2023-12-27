@@ -1,9 +1,16 @@
+<form method="post"> 
+   {% csrf_token %}
 
-{% block content %}
-  <h2>Formulir Knapsack</h2>
-  <form method="post" action="{% url 'knapsack_greedy' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Hitung Knapsack</button>
-  </form>
-{% endblock %}
+  <h3>Item Form</h3>
+  <a href="{% url 'item_form' %}">Tambah Item</a>
+
+  <h3>Container Form</h3>
+  <a href="{% url 'container_form' %}">Tambah Container</a>
+
+  <h3>Truck Form</h3>
+  <a href="{% url 'truck_form' %}">Tambah Truck</a>
+
+  {{ form.as_p }}
+
+  <button type="submit">Calculate</button>
+</form>

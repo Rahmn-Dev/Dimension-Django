@@ -1,0 +1,7 @@
+<h2>Delete Confirmation</h2>
+<p>Apakah anda yakin ingin menghapus {{ instance.name }}?</p>
+<form method="post" action="{% url 'container_form_delete' pk=instance.pk %}">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+</form>
+<a href="{% url 'container_form' %}">Cancel</a>

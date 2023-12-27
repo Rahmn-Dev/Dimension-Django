@@ -1,20 +1,26 @@
-# knapsack_app/forms.py
 from django import forms
-from .models import Item
+from .models import Item, Container, Truck
 
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ['name', 'weight', 'price', 'length', 'width', 'value']
+
+class ContainerForm(forms.ModelForm):
+    class Meta:
+        model = Container
+        fields = ['name', 'capacity_weight', 'capacity_length', 'capacity_width']
+        
 class KnapsackForm(forms.Form):
-    capacity = forms.IntegerField(label='Kapasitas Kantong')
-    num_items = forms.IntegerField(label='Jumlah Barang')
+    capacity = forms.IntegerField(label='Kapasitas Kantong', required=False)  # Buat capacity tidak wajib
+    container = forms.ModelChoiceField(queryset=Container.objects.all())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Sembunyikan field capacity untuk saat ini
+        self.fields['capacity'].widget = forms.HiddenInput()
 
-        try:
-            num_items = int(self.data['num_items'])
-        except (KeyError, ValueError):
-            num_items = 0
-
-        for i in range(num_items):
-            self.fields[f'name_{i}'] = forms.CharField(label=f'Barang-{i + 1} Nama')
-            self.fields[f'price_{i}'] = forms.IntegerField(label=f'Barang-{i + 1} Harga')
-            self.fields[f'weight_{i}'] = forms.IntegerField(label=f'Barang-{i + 1} Berat')
+class TruckForm(forms.ModelForm):
+    class Meta:
+        model = Truck
+        fields = ['name', 'capacity_weight',]

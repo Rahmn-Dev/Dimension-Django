@@ -1,51 +1,96 @@
-# knapsack_app/views.py
-from django.shortcuts import render
-from .forms import KnapsackForm
-from .models import Item
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import ItemForm, ContainerForm, KnapsackForm, TruckForm
+from .utils import knapsack_greedy_algorithm
+from .models import Item, Container, Truck
 
-def knapsack_greedy(request):
+def item_form(request):
     if request.method == 'POST':
-        form = KnapsackForm(request.POST)
+        form = ItemForm(request.POST)
         if form.is_valid():
-            capacity = form.cleaned_data['capacity']
-            num_items = form.cleaned_data['num_items']
-            
-            # Mengambil data barang dari form
-            items_data = []
-            for i in range(num_items):
-                name = form.cleaned_data[f'name_{i}']
-                price = form.cleaned_data[f'price_{i}']
-                weight = form.cleaned_data[f'weight_{i}']
+            form.save()
+            return redirect('item_form')
 
-                # Membuat instance Item dari data
-                item = Item(name=name, price=price, weight=weight)
-                items_data.append(item)
-            
-            # Sekarang Anda memiliki data barang yang dapat diproses
-            # Lanjutkan dengan implementasi algoritma knapsack
-            total_price, selected_items = knapsack_greedy_algorithm(items_data, capacity)
+    items = Item.objects.all()
+    return render(request, 'item/item_form.html', {'form': ItemForm(), 'items': items})
 
-            return render(request, 'results.html', {'selected_items': selected_items, 'total_price': total_price})
+def item_form_delete(request, pk):
+    instance = get_object_or_404(Item, pk=pk)
 
+    if request.method == 'POST':
+        instance.delete()
+        return redirect('item_form') 
+
+    return render(request, 'item/item_delete_form.html', {'instance': instance})
+
+def container_form(request):
+    if request.method == 'POST':
+        form = ContainerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('container_form')
+
+    containers = Container.objects.all()
+    return render(request, 'container/container_form.html', {'form': ContainerForm(), 'containers': containers})
+
+def container_form_delete(request, pk):
+    instance = get_object_or_404(Container, pk=pk)
+
+    if request.method == 'POST':
+        instance.delete()
+        return redirect('container_form') 
+
+    return render(request, 'container/container_delete_form.html', {'instance': instance})
+
+def truck_form(request):
+    trucks = Truck.objects.all()
+    if request.method == 'POST':
+        form = TruckForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('truck_form')
     else:
-        form = KnapsackForm()
+        form = TruckForm()
+    return render(request, 'truck/truck_form.html', {'form': form, 'trucks': trucks})
+
+def truck_form_delete(request, pk):
+    instance = get_object_or_404(Truck, pk=pk)
+
+    if request.method == 'POST':
+        instance.delete()
+        return redirect('truck_form') 
+
+    return render(request, 'truck/truck_delete_form.html', {'instance': instance})
+
+def knapsack_form(request):
+    form = KnapsackForm(request.POST)
+    if form.is_valid():
+        container = form.cleaned_data['container']
+        items = Item.objects.all()
+        selected_items, selected_container = knapsack_greedy_algorithm(items, container)
+        
+        selected_truck = None
+        for truck in Truck.objects.all():
+            if truck.capacity_weight >= sum(item.weight for item in selected_items):
+                selected_truck = truck
+                break
+            
+        total_value = sum(item.value for item in selected_items)
+        total_price = sum(item.price for item in selected_items)
+
+
+        return render(request, 'results.html', {
+            'selected_items': selected_items,
+            'selected_container': selected_container,
+            'total_value': total_value,
+            'total_price': total_price,
+            'selected_truck': selected_truck,
+        })
 
     return render(request, 'knapsack_form.html', {'form': form})
 
+# def knapsack_result(request):
+#     container = Container.objects.get(pk=1)  # Ganti dengan mekanisme pemilihan container yang sesuai
+#     items = Item.objects.all()
+#     selected_items, selected_container = knapsack_greedy_algorithm(items, container)
 
-
-# knapsack_app/views.py
-def knapsack_greedy_algorithm(items, capacity):
-    items.sort(key=lambda x: x.price / x.weight, reverse=True)
-
-    total_price = 0
-    total_weight = 0
-    selected_items = []
-
-    for item in items:
-        if total_weight + item.weight <= capacity:
-            total_price += item.price
-            total_weight += item.weight
-            selected_items.append(item)
-
-    return total_price, selected_items
+#     return render(request, 'results.html', {'selected_items': selected_items, 'selected_container': selected_container})
