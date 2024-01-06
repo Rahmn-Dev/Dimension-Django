@@ -114,7 +114,7 @@
                   padding-bottom: 1px;
                   padding-right: 8px;
                   align-items: center; color:#428DFC; font-weight:700;">{{user.username|slice:":1"| upper }}</div>
-                  <span class="d-none d-lg-inline me-2 text-black-600 small" style="margin-left: 8px;font-weight: bold; color: black;">{{user.username}}</span></a>
+                  <span class="d-none d-lg-inline me-2 text-black-600 small" style="margin-left: 8px;font-weight: bold; color: black;">{{user.username| title}}</span></a>
                   <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
                     <form method="post" action="{% url 'logout' %}" >
                     

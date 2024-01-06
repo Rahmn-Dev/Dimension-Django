@@ -16,6 +16,22 @@
 
     .is:hover {
         box-shadow: 0 2px 5px #246af3;
+        color: #246af3;
+    }
+    .it {
+        border-radius: 14px;
+        background: white;
+       
+        padding: 33px 22px;
+        gap: 20px;
+       
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .it:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        
+
     }
 </style>
 {% endblock %}
@@ -23,7 +39,9 @@
 {% block content %}
 <div class="container" style="padding: 20px; ">
 <div class="row" style="gap:30px;">
-    <div class="col-12">
+    <div class="col-12" style="
+    margin-top: 30px;
+">
         <h3>Welcome, {{ user.username| title }} 👋 </h3>
 
     </div>
@@ -49,7 +67,7 @@
                       </svg>
                 </div>
                 <div class="col-6 text-center position-absolute  translate-middle" style="left: 53%; top: 40%;">
-                    <h1 style="color: white;">20</h1>
+                    <h1 style="color: white;">{{items.count}}</h1>
                 </div>
                 <div class="col-6 text-center position-absolute  translate-middle" style="left: 55%; top: 80%;">
                     <h1 style="color: rgba(255, 255, 255, 0.80);
@@ -88,7 +106,7 @@
                           </svg>
                     </div>
                     <div class="col-6 text-center position-absolute  translate-middle" style="left: 53%; top: 40%;">
-                        <h1 style="color: color: var(--Neutral-100, #1E1E1E);">20</h1>
+                        <h1 style="color: color: var(--Neutral-100, #1E1E1E);">{{containers.count}}</h1>
                     </div>
                     <div class="col-6 text-center position-absolute  translate-middle" style="left: 55%; top: 80%;">
                         <h1 style="color: var(--Neutral-80, #737373);
@@ -127,7 +145,7 @@
                           </svg>
                     </div>
                     <div class="col-6 text-center position-absolute  translate-middle" style="left: 53%; top: 40%;">
-                        <h1 style="color: color: var(--Neutral-100, #1E1E1E);">20</h1>
+                        <h1 style="color: color: var(--Neutral-100, #1E1E1E);">{{trucks.count}}</h1>
                     </div>
                     <div class="col-6 text-center position-absolute  translate-middle" style="left: 55%; top: 80%;">
                         <h1 style="color: var(--Neutral-80, #737373);
@@ -150,7 +168,57 @@
 
     </div>
     <div class="col-12">
-        <h3>Welcome, {{ user.username| title }}</h3>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12" style="padding: 12px;">
+               <div class="card it">
+                    <div class="row">
+                        <div class="col-6 col-md-6 col-sm-6">
+                            <h4>Items</h4>
+                        </div>
+                        <div class="col-6 col-md-6 col-sm-6" style="display: flex;justify-content: flex-end;">
+                            <button class="btn" style="border-radius: 5px;
+                            border: 1px solid var(--Neutral-40, #E4E4E4);
+                            background: var(--Neutral-10, #FFF);">
+                            <i class="fa-solid fa-plus"></i> Add Item
+                            </button>
+                        </div>
+                
+                    </div>
+                    <div class="row" style="border-radius: 5px;
+                    background: var(--Neutral-20, #F6F6F6);
+                    gap: 20px;
+                    align-self: stretch;
+                    display: flex;
+                    margin: 0px;
+                    padding: 12px 20px;
+                    ">
+                        <div class="col-12 col-md-12 col-sm-12">
+                            <div class="row overflow-auto">
+                                <div class=" col-lg-2 col-sm-2 col-md-2">
+                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Name</h5>
+                                </div>
+                                <div class=" col-lg-2 col-sm-2 col-md-2">
+                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Qty</h5>
+                                </div>
+                                <div class=" col-lg-2 col-sm-2 col-md-2">
+                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Weight</h5>
+                                </div>
+                                <div class=" col-lg-2 col-sm-2 col-md-2">
+                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Length</h5>
+                                </div>
+                                <div class=" col-lg-2 col-sm-2 col-md-2">
+                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Width</h5>
+                                </div>
+                                <div class=" col-lg-2 col-sm-2 col-md-2">
+                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Price</h5>
+                                </div>
+                            </div>
+                        
+                        </div>
+                
+                    </div>
+                </div>
+        </div>
 
     </div>
 </div>
