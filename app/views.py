@@ -2,7 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ItemForm, ContainerForm, KnapsackForm, TruckForm
 from .utils import knapsack_greedy_algorithm
 from .models import Item, Container, Truck
+from django.contrib.auth.decorators import login_required
 
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+@login_required
 def item_form(request):
     if request.method == 'POST':
         form = ItemForm(request.POST)
@@ -13,6 +19,7 @@ def item_form(request):
     items = Item.objects.all()
     return render(request, 'item/item_form.html', {'form': ItemForm(), 'items': items})
 
+@login_required
 def item_form_delete(request, pk):
     instance = get_object_or_404(Item, pk=pk)
 
@@ -22,6 +29,7 @@ def item_form_delete(request, pk):
 
     return render(request, 'item/item_delete_form.html', {'instance': instance})
 
+@login_required
 def container_form(request):
     if request.method == 'POST':
         form = ContainerForm(request.POST)
@@ -32,6 +40,7 @@ def container_form(request):
     containers = Container.objects.all()
     return render(request, 'container/container_form.html', {'form': ContainerForm(), 'containers': containers})
 
+@login_required
 def container_form_delete(request, pk):
     instance = get_object_or_404(Container, pk=pk)
 
@@ -41,6 +50,7 @@ def container_form_delete(request, pk):
 
     return render(request, 'container/container_delete_form.html', {'instance': instance})
 
+@login_required
 def truck_form(request):
     trucks = Truck.objects.all()
     if request.method == 'POST':
@@ -52,6 +62,7 @@ def truck_form(request):
         form = TruckForm()
     return render(request, 'truck/truck_form.html', {'form': form, 'trucks': trucks})
 
+@login_required
 def truck_form_delete(request, pk):
     instance = get_object_or_404(Truck, pk=pk)
 
@@ -61,6 +72,7 @@ def truck_form_delete(request, pk):
 
     return render(request, 'truck/truck_delete_form.html', {'instance': instance})
 
+@login_required
 def knapsack_form(request):
     form = KnapsackForm(request.POST)
     if form.is_valid():
