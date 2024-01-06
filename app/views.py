@@ -51,13 +51,16 @@ def container_form(request):
 
 @login_required
 def container_form_delete(request, pk):
-    instance = get_object_or_404(Container, pk=pk)
+    container = Container.objects.get(pk= pk)
+    container.delete()
+    return HttpResponseRedirect(reverse('dashboard'))
+    # instance = get_object_or_404(Container, pk=pk)
 
-    if request.method == 'POST':
-        instance.delete()
-        return redirect('container_form') 
+    # if request.method == 'POST':
+    #     instance.delete()
+    #     return redirect('container_form') 
 
-    return render(request, 'container/container_delete_form.html', {'instance': instance})
+    # return render(request, 'container/container_delete_form.html', {'instance': instance})
 
 @login_required
 def truck_form(request):
@@ -73,13 +76,16 @@ def truck_form(request):
 
 @login_required
 def truck_form_delete(request, pk):
-    instance = get_object_or_404(Truck, pk=pk)
+    truck = Truck.objects.get(pk= pk)
+    truck.delete()
+    return HttpResponseRedirect(reverse('dashboard'))
+    # instance = get_object_or_404(Truck, pk=pk)
 
-    if request.method == 'POST':
-        instance.delete()
-        return redirect('truck_form') 
+    # if request.method == 'POST':
+    #     instance.delete()
+    #     return redirect('truck_form') 
 
-    return render(request, 'truck/truck_delete_form.html', {'instance': instance})
+    # return render(request, 'truck/truck_delete_form.html', {'instance': instance})
 
 @login_required
 def knapsack_form(request):
