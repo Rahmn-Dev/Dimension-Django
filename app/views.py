@@ -3,6 +3,8 @@ from .forms import ItemForm, ContainerForm, KnapsackForm, TruckForm
 from .utils import knapsack_greedy_algorithm
 from .models import Item, Container, Truck
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 @login_required
 def dashboard(request):
@@ -25,13 +27,16 @@ def item_form(request):
 
 @login_required
 def item_form_delete(request, pk):
-    instance = get_object_or_404(Item, pk=pk)
+    item = Item.objects.get(pk= pk)
+    item.delete()
+    return HttpResponseRedirect(reverse('dashboard'))
+    # instance = get_object_or_404(Item, pk=pk)
 
-    if request.method == 'POST':
-        instance.delete()
-        return redirect('item_form') 
+    # if request.method == 'POST':
+    #     instance.delete()
+    #     return redirect('item_form') 
 
-    return render(request, 'item/item_delete_form.html', {'instance': instance})
+    # return render(request, 'item/item_delete_form.html', {'instance': instance})
 
 @login_required
 def container_form(request):

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% load widget_tweaks %}
 {% block extra_css %}
 <style>
@@ -17,6 +18,7 @@
     .is:hover {
         box-shadow: 0 2px 5px #246af3;
         color: #246af3;
+        
     }
     .it {
         border-radius: 14px;
@@ -33,6 +35,91 @@
         
 
     }
+    .buthov:hover{
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .dataTables_filter{
+        display: none;
+     }
+     .dataTables_paginate{
+        font-size:10px;
+     }
+     .dataTables_info{
+        font-size:14px;
+     }
+     .dataTables_length{
+        display: none;
+     }
+    .paginate_button current{
+        background-color: #428DFC;
+        color: white;
+    }
+     .dataTables_wrapper .sorting,
+    .dataTables_wrapper .sorting_asc,
+    .dataTables_wrapper .sorting_desc {
+      background-image: none !important;
+      background-repeat: no-repeat !important;
+      background-position: center right !important;
+      padding-right: 0 !important;
+    }
+    
+    .dataTables_wrapper .sorting:before,
+    .dataTables_wrapper .sorting_asc:before,
+    .dataTables_wrapper .sorting_desc:before {
+      content: none !important;
+    }
+    table.dataTable,
+    table.dataTable thead th {
+      border: none;
+      border-radius: 5px;   
+        background: var(--Neutral-20, #F6F6F6);
+        color: var(--Neutral-80, #737373);
+    }
+    table.dataTable.no-footer{
+        border-bottom: 0px;
+    }
+    .dropdown-toggle::after{
+        border: 0px;
+    }
+    .trucksvg {
+        animation: none; 
+        stroke-dashoffset: 50;
+    }
+    
+    @keyframes dash {
+        to {
+            stroke-dashoffset: 500;
+        }
+    }
+    
+    .card:hover .trucksvg {
+        
+        stroke-dasharray: 50;
+        stroke-dashoffset: 0;
+        animation: dash 10s linear infinite;
+    }
+
+    .itemsvg {
+        animation: none; 
+        stroke-dashoffset: 50;
+    }
+    .card:hover .itemsvg {
+        
+        stroke-dasharray: 50;
+        stroke-dashoffset: 0;
+        animation: dash 10s linear infinite;
+    }
+    .containersvg {
+        animation: none; 
+        stroke-dashoffset: 50;
+    }
+    .card:hover .containersvg {
+        
+        stroke-dasharray: 50;
+        stroke-dashoffset: 0;
+        animation: dash 10s linear infinite;
+    }
+    
 </style>
 {% endblock %}
 
@@ -63,7 +150,7 @@
                 </div>
                 <div class="col-6 text-center position-absolute top-50  translate-middle" style="left: 35%;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-                        <path d="M50 18.75L30 7.5L10 18.75M50 18.75V41.25L30 52.5M50 18.75L30 30M30 52.5L10 41.25V18.75M30 52.5V30M10 18.75L30 30M20.5 24.5L39.5 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path class="itemsvg" d="M50 18.75L30 7.5L10 18.75M50 18.75V41.25L30 52.5M50 18.75L30 30M30 52.5L10 41.25V18.75M30 52.5V30M10 18.75L30 30M20.5 24.5L39.5 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                 </div>
                 <div class="col-6 text-center position-absolute  translate-middle" style="left: 53%; top: 40%;">
@@ -102,7 +189,7 @@
                     </div>
                     <div class="col-6 text-center position-absolute top-50  translate-middle" style="left: 35%;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="61" height="60" viewBox="0 0 61 60" fill="none">
-                            <path d="M24.1481 53.8657L55 36.625V16.2083M24.1481 53.8657V33.4491M24.1481 53.8657L15.0741 48.7616M6 23.2407V43.6574L15.0741 48.7616M6 23.2407L15.0741 28.3449M6 23.2407L36.8519 6L55 16.2083M24.1481 33.4491L15.0741 28.3449M24.1481 33.4491L55 16.2083M15.0741 28.3449V48.7616" stroke="#246AF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path class="containersvg" d="M24.1481 53.8657L55 36.625V16.2083M24.1481 53.8657V33.4491M24.1481 53.8657L15.0741 48.7616M6 23.2407V43.6574L15.0741 48.7616M6 23.2407L15.0741 28.3449M6 23.2407L36.8519 6L55 16.2083M24.1481 33.4491L15.0741 28.3449M24.1481 33.4491L55 16.2083M15.0741 28.3449V48.7616" stroke="#246AF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
                     </div>
                     <div class="col-6 text-center position-absolute  translate-middle" style="left: 53%; top: 40%;">
@@ -141,7 +228,7 @@
                     </div>
                     <div class="col-6 text-center position-absolute top-50  translate-middle" style="left: 35%;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="61" height="60" viewBox="0 0 61 60" fill="none">
-                            <path d="M13.1666 42.5C13.1666 43.8261 13.6934 45.0979 14.6311 46.0355C15.5688 46.9732 16.8405 47.5 18.1666 47.5C19.4927 47.5 20.7645 46.9732 21.7022 46.0355C22.6398 45.0979 23.1666 43.8261 23.1666 42.5M13.1666 42.5C13.1666 41.1739 13.6934 39.9021 14.6311 38.9645C15.5688 38.0268 16.8405 37.5 18.1666 37.5C19.4927 37.5 20.7645 38.0268 21.7022 38.9645C22.6398 39.9021 23.1666 41.1739 23.1666 42.5M13.1666 42.5H8.16663V32.5M23.1666 42.5H38.1666M38.1666 42.5C38.1666 43.8261 38.6934 45.0979 39.6311 46.0355C40.5688 46.9732 41.8405 47.5 43.1666 47.5C44.4927 47.5 45.7645 46.9732 46.7022 46.0355C47.6398 45.0979 48.1666 43.8261 48.1666 42.5M38.1666 42.5C38.1666 41.1739 38.6934 39.9021 39.6311 38.9645C40.5688 38.0268 41.8405 37.5 43.1666 37.5C44.4927 37.5 45.7645 38.0268 46.7022 38.9645C47.6398 39.9021 48.1666 41.1739 48.1666 42.5M48.1666 42.5H53.1666V27.5M5.66663 12.5H33.1666V42.5M53.1666 27.5H33.1666M53.1666 27.5L45.6666 15H33.1666M8.16663 22.5H18.1666" stroke="#246AF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path class="trucksvg" d="M13.1666 42.5C13.1666 43.8261 13.6934 45.0979 14.6311 46.0355C15.5688 46.9732 16.8405 47.5 18.1666 47.5C19.4927 47.5 20.7645 46.9732 21.7022 46.0355C22.6398 45.0979 23.1666 43.8261 23.1666 42.5M13.1666 42.5C13.1666 41.1739 13.6934 39.9021 14.6311 38.9645C15.5688 38.0268 16.8405 37.5 18.1666 37.5C19.4927 37.5 20.7645 38.0268 21.7022 38.9645C22.6398 39.9021 23.1666 41.1739 23.1666 42.5M13.1666 42.5H8.16663V32.5M23.1666 42.5H38.1666M38.1666 42.5C38.1666 43.8261 38.6934 45.0979 39.6311 46.0355C40.5688 46.9732 41.8405 47.5 43.1666 47.5C44.4927 47.5 45.7645 46.9732 46.7022 46.0355C47.6398 45.0979 48.1666 43.8261 48.1666 42.5M38.1666 42.5C38.1666 41.1739 38.6934 39.9021 39.6311 38.9645C40.5688 38.0268 41.8405 37.5 43.1666 37.5C44.4927 37.5 45.7645 38.0268 46.7022 38.9645C47.6398 39.9021 48.1666 41.1739 48.1666 42.5M48.1666 42.5H53.1666V27.5M5.66663 12.5H33.1666V42.5M53.1666 27.5H33.1666M53.1666 27.5L45.6666 15H33.1666M8.16663 22.5H18.1666" stroke="#246AF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
                     </div>
                     <div class="col-6 text-center position-absolute  translate-middle" style="left: 53%; top: 40%;">
@@ -172,11 +259,11 @@
             <div class="col-md-12 col-sm-12 col-lg-12" style="padding: 12px;">
                <div class="card it">
                     <div class="row">
-                        <div class="col-6 col-md-6 col-sm-6">
-                            <h4>Items</h4>
+                        <div class="col-6 col-md-6 col-sm-6" style="display: flex;">
+                            <h5>Items</h5>
                         </div>
                         <div class="col-6 col-md-6 col-sm-6" style="display: flex;justify-content: flex-end;">
-                            <button class="btn" style="border-radius: 5px;
+                            <button class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px;
                             border: 1px solid var(--Neutral-40, #E4E4E4);
                             background: var(--Neutral-10, #FFF);">
                             <i class="fa-solid fa-plus"></i> Add Item
@@ -185,34 +272,62 @@
                 
                     </div>
                     <div class="row" style="border-radius: 5px;
-                    background: var(--Neutral-20, #F6F6F6);
+                   
                     gap: 20px;
                     align-self: stretch;
                     display: flex;
-                    margin: 0px;
-                    padding: 12px 20px;
                     ">
                         <div class="col-12 col-md-12 col-sm-12">
-                            <div class="row overflow-auto">
-                                <div class=" col-lg-2 col-sm-2 col-md-2">
-                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Name</h5>
-                                </div>
-                                <div class=" col-lg-2 col-sm-2 col-md-2">
-                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Qty</h5>
-                                </div>
-                                <div class=" col-lg-2 col-sm-2 col-md-2">
-                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Weight</h5>
-                                </div>
-                                <div class=" col-lg-2 col-sm-2 col-md-2">
-                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Length</h5>
-                                </div>
-                                <div class=" col-lg-2 col-sm-2 col-md-2">
-                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Width</h5>
-                                </div>
-                                <div class=" col-lg-2 col-sm-2 col-md-2">
-                                    <h5 style="color: var(--Neutral-80, #737373); font-size: 15px;">Price</h5>
-                                </div>
-                            </div>
+                        
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0 data" id="data" style="border-bottom: 0px;">
+                                   <thead>
+                                       <tr >
+                                           <th style="width: 210.797px; font-size: 12px;border-bottom: 1px #c1bfbf;">Name</th>
+                                           <th style="width: 50.203px; font-size: 12px; border-bottom: 1px #c1bfbf;">Qty</th>
+                                           <th style="width: 50.969px;font-size: 12px; border-bottom: 1px #c1bfbf;">Weight</th>
+                                           <th style="width: 50.922px; font-size: 12px; border-bottom: 1px #c1bfbf;">Length</th>
+                                           <th style="width: 50.359px; font-size: 12px; border-bottom: 1px #c1bfbf;">Width</th>
+                                           <th style="width: 70.266px; font-size: 12px; border-bottom: 1px #c1bfbf;">Price</th>
+                                           
+                                           <th style="width: 30.266px;  font-size: 12px; border-bottom: 1px #c1bfbf;padding-right: 30px;"><i class="fa-solid fa-rocket"></i></th>
+                                           
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       {% for item in items %}
+                                       <tr style="border-color: #c1bfbf;">
+                                           <td style="font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ item.name }}</td>
+                                           <td style="font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ item.value|floatformat:0 }}</td>
+                                           <td style="font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ item.weight }} KG</td>
+                                           <td style="font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ item.length }} M</td>
+                                           <td style="font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ item.width }} M</td>
+                                           <td style="font-size: 12px; color: var(--Neutral-100, #1E1E1E);">Rp.{{ item.price|floatformat:0|intcomma }}</td>
+                                          
+                                           <td style="font-size: 12px;">
+                                               <div class="dropdown no-arrow text-center">
+                                                   <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" >
+                                                       <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                   </a>
+                                                   <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+
+                                                       <button class="dropdown-item" hx-get="/knapsack/item/edit/{{ item.id }}" hx-trigger="click" data-bs-target="#edit-modal" hx-target="#edit-modal" data-bs-toggle="modal" style="color:#428dfc;">
+                                                           <i class="fa-solid fa-paintbrush" style="color:#428dfc;"></i>&nbsp;Edit
+                                                       </button>
+                                                         <div class="dropdown-divider"></div>
+                                                       <a class="dropdown-item" onclick="navigateToUrls('/knapsack/item/delete/{{ item.id }}/')" style="color:red;">
+                                                           <i class="fa-regular fa-trash-can" style="color:red;"></i>&nbsp;Delete</a>
+                                                   </div>
+                                               </div>
+                                           </td>
+                                           
+                                       </tr>
+                                       {% endfor %}
+                                   </tbody>
+                               
+                               </table>
+                             
+                             </div>
                         
                         </div>
                 
@@ -226,4 +341,39 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+    $(document).ready(function(){
+		var usertable = $('#data').DataTable();
+	});
+    function navigateToUrls(url) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Apakah Kamu Yakin ingin menghapus?',
+         
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No, Batal',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Hapus data Berhasil',
+            });
+           
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Dibatalkan',
+              text: 'Batal menghapus',
+            });
+          }
+        });
+    }
+    
+</script>
+
+    
 {% endblock %}
