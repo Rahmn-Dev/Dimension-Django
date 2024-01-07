@@ -3,22 +3,18 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/45fe4c1444.js" crossorigin="anonymous"></script>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
-
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/kursor@0.1.6/dist/kursor.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/kursor@0.1.6/dist/kursor.min.js"></script>
     {% block extra_css %}{% endblock %}
-    <title>{{ title }}</title>
+    <title>Dimension</title>
     
   </head>
   <style>
@@ -65,28 +61,37 @@
     .logosvg:hover{
       animation: rotate 5s linear;
     }
+    html.lenis {
+      height: auto;
+    }
     
-   
-
+    .lenis.lenis-smooth {
+      scroll-behavior: auto;
+    }
+    
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
   </style>
   <body>
-    
-   <div id="preloader">
-     <div style="
-     display: flex;
-     justify-content: space-around;
-     align-content: center;
-     flex-wrap: nowrap;
-     flex-direction: row;
-     /* align-items: center; */
-   ">
-      <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none" class="rotate-animation">
-           <path d="M10.8069 11.8975C14.7347 10.019 17.8088 6.83112 19.5735 2.8463C18.4349 1.65085 16.9549 0.796964 15.3609 0.28463L14.507 0C14.4501 0.113852 14.3932 0.284637 14.3932 0.398489C13.027 4.26946 10.2376 7.40038 6.48049 9.16509C3.86189 10.4175 1.9264 12.6945 1.01559 15.4269L0.730957 16.2808C0.844809 16.3378 1.01559 16.3947 1.12944 16.3947C2.21104 16.7932 3.29263 17.3055 4.3173 17.9317C5.74045 15.37 8.01748 13.2068 10.8069 11.8975Z" fill="#246AF3"/>
-           <path d="M27.3151 12.1252C25.2088 15.3131 22.3056 17.8748 18.7193 19.5825C15.816 20.9488 13.5959 23.5104 12.5713 26.5844L12.2866 27.5522C13.3682 28.5199 14.6775 29.26 16.1007 29.7154L16.9546 30C17.0115 29.8862 17.0684 29.7154 17.0684 29.6015C18.4346 25.7305 21.224 22.5996 24.9811 20.8349C27.5997 19.5825 29.5921 17.3055 30.446 14.5731L30.7306 13.7192C29.5352 13.3776 28.3967 12.8083 27.3151 12.1252Z" fill="#246AF3"/>
-           <path d="M10.0096 24.592C11.4328 21.1765 14.0514 18.3871 17.41 16.7932C20.484 15.3131 23.0457 13.0361 24.8104 10.2467C23.5011 8.99431 22.4195 7.57115 21.6225 5.86337C19.5163 9.73434 16.2146 12.8653 12.1728 14.8008C9.83886 15.8824 7.9603 17.7609 6.82178 20.038C8.07415 21.2334 9.09882 22.7135 9.89578 24.3643C9.89578 24.3643 9.95271 24.4782 10.0096 24.592Z" fill="#246AF3"/>
-           </svg>
-     </div>
-   </div>
+  
+    <div id="preloader">
+      <div style="display:flex;justify-content:space-around;align-content:center;flex-wrap:nowrap;flex-direction:row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none" class="rotate-animation">
+          <path d="M10.8069 11.8975C14.7347 10.019 17.8088 6.83112 19.5735 2.8463C18.4349 1.65085 16.9549 0.796964 15.3609 0.28463L14.507 0C14.4501 0.113852 14.3932 0.284637 14.3932 0.398489C13.027 4.26946 10.2376 7.40038 6.48049 9.16509C3.86189 10.4175 1.9264 12.6945 1.01559 15.4269L0.730957 16.2808C0.844809 16.3378 1.01559 16.3947 1.12944 16.3947C2.21104 16.7932 3.29263 17.3055 4.3173 17.9317C5.74045 15.37 8.01748 13.2068 10.8069 11.8975Z" fill="#246AF3" />
+          <path d="M27.3151 12.1252C25.2088 15.3131 22.3056 17.8748 18.7193 19.5825C15.816 20.9488 13.5959 23.5104 12.5713 26.5844L12.2866 27.5522C13.3682 28.5199 14.6775 29.26 16.1007 29.7154L16.9546 30C17.0115 29.8862 17.0684 29.7154 17.0684 29.6015C18.4346 25.7305 21.224 22.5996 24.9811 20.8349C27.5997 19.5825 29.5921 17.3055 30.446 14.5731L30.7306 13.7192C29.5352 13.3776 28.3967 12.8083 27.3151 12.1252Z" fill="#246AF3" />
+          <path d="M10.0096 24.592C11.4328 21.1765 14.0514 18.3871 17.41 16.7932C20.484 15.3131 23.0457 13.0361 24.8104 10.2467C23.5011 8.99431 22.4195 7.57115 21.6225 5.86337C19.5163 9.73434 16.2146 12.8653 12.1728 14.8008C9.83886 15.8824 7.9603 17.7609 6.82178 20.038C8.07415 21.2334 9.09882 22.7135 9.89578 24.3643C9.89578 24.3643 9.95271 24.4782 10.0096 24.592Z" fill="#246AF3" />
+        </svg>
+      </div>
+    </div>
     {% if user.is_authenticated %}
         
         {% include 'navbar.html' %}
@@ -98,22 +103,42 @@
         {% block content %}
           {% endblock %}
 
-  
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
+    
     <script>
       var loader = document.getElementById("preloader");
      window.addEventListener("load", function(){
        loader.style.display = "none";
-     }) 
+     })
    </script> 
+   <script>
+   
+    const lenis = new Lenis()
+
+    lenis.on('scroll', ScrollTrigger.update)
+    
+    gsap.ticker.add((time)=>{
+      lenis.raf(time * 1000)
+    })
+    
+    gsap.ticker.lagSmoothing(0)
+  </script>
+  <script>
+     {% comment %} var kursorx = new kursor({
+      type: 4,
+      removeDefaultCursor: true,
+     
+    }) {% endcomment %}
+  </script>
+ 
     {% block extra_js %}{% endblock %}
   </body>
 </html>
