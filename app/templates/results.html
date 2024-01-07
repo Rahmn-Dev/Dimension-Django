@@ -13,6 +13,11 @@
         transform: scale(1.2);
     }
 }
+@keyframes dash {
+    to {
+        stroke-dashoffset: 400;
+    }
+}
 .it {
     border-radius: 14px;
     background: white;
@@ -22,11 +27,46 @@
    
     transition: box-shadow 0.3s ease-in-out;
 }
+.itemsvg {
+    animation: none; 
+    stroke-dashoffset: 50;
+}
+.card:hover .itemsvg {
+    
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+    animation: dash 10s linear infinite;
+}
+.containersvg {
+    animation: none; 
+    stroke-dashoffset: 50;
+}
+.card:hover .containersvg {
+    
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+    animation: dash 10s linear infinite;
+}
+.trucksvg {
+    animation: none; 
+    stroke-dashoffset: 50;
+}
+.card:hover .trucksvg {
+        
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+    animation: dash 10s linear infinite;
+}
+
 
 .it:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     
 
+}
+.kk:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
 }
 
 .back .fa-arrow-left {
@@ -99,7 +139,22 @@ table.dataTable thead th {
 table.dataTable.no-footer{
     border-bottom: 0px;
 }
+.fade-icon {
+    color: green;
+    transition: transform 0.3s ease;
+  }
 
+  .card:hover .fade-icon {
+    transform: scale(1.2);
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+.rotate:hover .fa-rotate {
+    animation: spin 2s infinite linear;
+  }
 </style>
 {% endblock %}
 {% block content %}
@@ -162,15 +217,20 @@ table.dataTable.no-footer{
 		</div>
         <div class="col-12" style="margin-top:10px">
             <div class="row">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="2" viewBox="0 0 1100 2" fill="none">
-                    <path d="M0 1H1100" stroke="#E4E4E4"/>
-                  </svg>
+                <div class="col-12 col-sm-12 col-lg-12 col-md-12">
+                    <a href="{% url 'knapsack_form' %}" style="color: #0f69f1; font-size: 13px; font-weight: bold; text-decoration: none;" class="rotate"><i class="fa-solid fa-rotate"></i> Reset</a>
+                </div>
+                <div class="col-12 col-sm-12 col-lg-12 col-md-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="2" viewBox="0 0 1100 2" fill="none">
+                        <path d="M0 1H1100" stroke="#E4E4E4"/>
+                      </svg>
+                </div>
             </div>
         </div>
 		<div class="col-12">
 			<div class="row" id="row1"  style="">
         <div class="col-md-12 col-sm-12 col-lg-12" style="padding: 12px;">
-            <div class="card it" style="
+            <div class="card kk" style="
             border-radius: 14px;
             background: #0d6efd;
             padding: 5px;
@@ -189,7 +249,7 @@ table.dataTable.no-footer{
                     margin-left: 10px;
                 ">
                         
-                            <p style="color: white;margin-top: 10px;margin-bottom: 10px;"><i class="fa-regular fa-circle-check" style="color: white;"></i> You can use a <b>{{ selected_truck.name }}</b> truck with a weight capacity of {{ selected_truck.capacity_weight }} KG</p>
+                            <p style="color: white;margin-top: 10px;margin-bottom: 10px;"><i class="fa-regular fa-circle-check  fa-beat-fade" style="color: white;"></i> You can use a <b>{{ selected_truck.name }}</b> truck with a weight capacity of {{ selected_truck.capacity_weight }} KG</p>
                        
                     </div>
                     
@@ -206,9 +266,9 @@ table.dataTable.no-footer{
                                 <h5 style="display: flex;
                                 align-items: center;
                                 gap: 10px;
-                                flex: 1 0 0; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                flex: 1 0 0; "><svg class="itemsvg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 7.5L12 3L4 7.5M20 7.5V16.5L12 21M20 7.5L12 12M12 21L4 16.5V7.5M12 21V12M4 7.5L12 12M8.20001 9.8L15.8 5.2" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>Selected Items</h5>
+                                </svg>Selected Items {{selected_items|length}}</h5>
                             </div>
                     
                         </div>
@@ -252,6 +312,27 @@ table.dataTable.no-footer{
                                 </div>
                             </div>
                         </div>
+                        <div class="row ">
+                        
+                            <div class="col-6 col-sm-6 col-lg-6 col-md-6 " style="display: flex;">
+                                <h5 style="display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                justify-content: center;
+                                flex: 1 0 0;  color: black; font-size: 12px;
+                                font-style: normal;"><i class="fa-solid fa-cart-arrow-down fade-icon" style="color: #0f69f1;"></i> <text style="color: #0f69f1;" class="fade-icon">{{total_value|floatformat:0}}</text></h5>
+                            </div>
+                            <div class="col-6 col-sm-6 col-lg-6 col-md-6 " style="display: flex;">
+                                <h5 style="display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 10px;
+                                flex: 1 0 0;  color: black; font-size: 12px;
+                                font-style: normal;"><i class="fa-solid fa-money-bill-wave fade-icon" style="color: green;"></i> <text style="color: green;" class="fade-icon">Rp.{{total_price|floatformat:0|intcomma}}</text></h5>
+                            </div>
+                    
+                        </div>
+                       
 
                     </div>
                 </div> 
@@ -267,7 +348,7 @@ table.dataTable.no-footer{
                                 align-items: center;
                                 gap: 10px;
                                 flex: 1 0 0; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M9.52592 21.5462L21.8667 14.6499V6.48324M9.52592 21.5462V13.3795M9.52592 21.5462L5.89629 19.5045M2.26666 9.2962V17.4629L5.89629 19.5045M2.26666 9.2962L5.89629 11.3379M2.26666 9.2962L14.6074 2.3999L21.8667 6.48324M9.52592 13.3795L5.89629 11.3379M9.52592 13.3795L21.8667 6.48324M5.89629 11.3379V19.5045" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path class="containersvg" d="M9.52592 21.5462L21.8667 14.6499V6.48324M9.52592 21.5462V13.3795M9.52592 21.5462L5.89629 19.5045M2.26666 9.2962V17.4629L5.89629 19.5045M2.26666 9.2962L5.89629 11.3379M2.26666 9.2962L14.6074 2.3999L21.8667 6.48324M9.52592 13.3795L5.89629 11.3379M9.52592 13.3795L21.8667 6.48324M5.89629 11.3379V19.5045" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                   </svg> Containers {{ selected_container.name }}</h5>
                             </div>
                             
@@ -289,7 +370,7 @@ table.dataTable.no-footer{
                                         font-style: normal;">Capacity Weight</p>
                                     </div>
                                     <div class="col-6 col-md-6 col-sm-6 col-lg-6">
-                                        <p style="font-weight: 400; text-align: right; font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ selected_container.capacity_weight }} KG</p>
+                                        <p style="font-weight: 400; text-align: right; font-size: 12px; color: var(--Neutral-100, #1E1E1E); ">{{ selected_container.capacity_weight }} KG</p>
                                     </div>
                                </div>
                                <div class="row">
@@ -321,7 +402,7 @@ table.dataTable.no-footer{
                                 <h5 style="display: flex;
                                 align-items: center;
                                 gap: 10px;
-                                flex: 1 0 0; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                flex: 1 0 0; "><svg class="trucksvg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M5 17C5 17.5304 5.21071 18.0391 5.58579 18.4142C5.96086 18.7893 6.46957 19 7 19C7.53043 19 8.03914 18.7893 8.41421 18.4142C8.78929 18.0391 9 17.5304 9 17M5 17C5 16.4696 5.21071 15.9609 5.58579 15.5858C5.96086 15.2107 6.46957 15 7 15C7.53043 15 8.03914 15.2107 8.41421 15.5858C8.78929 15.9609 9 16.4696 9 17M5 17H3V13M9 17H15M15 17C15 17.5304 15.2107 18.0391 15.5858 18.4142C15.9609 18.7893 16.4696 19 17 19C17.5304 19 18.0391 18.7893 18.4142 18.4142C18.7893 18.0391 19 17.5304 19 17M15 17C15 16.4696 15.2107 15.9609 15.5858 15.5858C15.9609 15.2107 16.4696 15 17 15C17.5304 15 18.0391 15.2107 18.4142 15.5858C18.7893 15.9609 19 16.4696 19 17M19 17H21V11M2 5H13V17M21 11H13M21 11L18 6H13M3 9H7" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                   </svg> {{selected_truck.name}}</h5>
                             </div>
