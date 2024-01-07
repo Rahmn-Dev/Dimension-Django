@@ -1,16 +1,155 @@
-<form method="post"> 
-   {% csrf_token %}
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% block extra_css %}
+<style>
+  @keyframes beat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
 
-  <h3>Item Form</h3>
-  <a href="{% url 'item_form' %}">Tambah Item</a>
+.back .fa-arrow-left {
+    transition: transform 0.5s ease;
+}
 
-  <h3>Container Form</h3>
-  <a href="{% url 'container_form' %}">Tambah Container</a>
+.back:hover .fa-arrow-left {
+    animation: beat 1s infinite;
+    transform: scale(1.2);
+}
+progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border: none;
+  background: transparent;
+}
+progress::-webkit-progress-bar {
+  background: transparent;
+}
+progress::-webkit-progress-value {
+  background: linear-gradient(to left,#0d41e1,#07c8f9);
+  background-attachment: fixed;
+}
+progress::-moz-progress-bar {
+  background: linear-gradient(to left, #0d41e1,#07c8f9);
+  background-attachment: fixed;
+}
+.calculatesvg {
+  animation: none; 
+  stroke-dashoffset: 40;
+  stroke-dasharray: 200;
+  
+  animation: dash 10s linear infinite;
+}
 
-  <h3>Truck Form</h3>
-  <a href="{% url 'truck_form' %}">Tambah Truck</a>
+@keyframes dash {
+  to {
+      stroke-dashoffset: 440;
+  }
+}
 
-  {{ form.as_p }}
 
-  <button type="submit">Calculate</button>
-</form>
+</style>
+{% endblock %}
+{% block content %}
+<div class="container" style="padding:20px">
+	<div class="row" style="gap:30px">
+		<div class="col-12" style="margin-top:30px">
+			<div class="row">
+				<div class="col-6 col-md-6 col-sm-12"><a href="/" style="text-decoration:none;color:#000" class="back"><h5><i class="fa-solid fa-arrow-left"></i> Calculate</h5></a></div>
+				<div class="col-6 col-md-6 col-sm-12"></div>
+			</div>
+		</div>
+		<div class="col-12">
+			<form id="form_id" method="post" >
+        {% csrf_token %}
+				<div class="row" id="row1" style="display:flex;align-items:flex-end;align-self:stretch;justify-content:center;align-content:center;flex-direction:row">
+					<div class="col-md-5 col-sm-12 col-lg-5" style="padding:12px">
+						<div>
+							<div class="row d-flex justify-content-center align-items-center" style="position:relative">
+								<div class="col-12 col-sm-12 col-md-12">
+									<p>Items</p>
+								</div>
+								<div class="col-12 col-sm-12 col-md-12">{% render_field form.items class="form-control thisthat" %}</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 col-sm-12 col-lg-5" style="padding:12px">
+						<div>
+							<div class="row d-flex justify-content-center align-items-center" style="position:relative">
+								<div class="col-12 col-sm-12 col-md-12">
+									<p>Container</p>
+								</div>
+								<div class="col-12 col-sm-12 col-md-12">{% render_field form.container class="form-control thisis" %}</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-12 col-lg-2" style="padding:12px">
+						<div>
+							<div class="row d-flex justify-content-center align-items-center" style="position:relative">
+								<div class="col-12 col-sm-12 col-md-12">
+									<button class="btn btn-primary btn-sm col-12" style="display:flex;padding:8px 16px;justify-content:center;align-items:center;gap:8px;border-radius:5px" type="submit">Calculate</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-12">
+			<div class="row" id="row1"  style="">
+        <div class="col-md-12 col-sm-12 col-lg-12" style="padding: 12px;">
+            <div class="card is" style="border-radius: 14px; padding: 150px 100px; align-items: center; gap: 20px; flex: 1 0 0; overflow: hidden;">
+                <div class="row d-flex justify-content-center align-items-center" style="position: relative;">
+                   
+                    <div class="col-12 text-center " style="left: 35%;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <path class="calculatesvg" d="M26.6667 46.6668V46.7001M40 46.6668V46.7001M53.3334 46.6668V46.7001M26.6667 56.6668V56.7001M40 56.6668V56.7001M53.3334 56.6668V56.7001M13.3334 16.6668C13.3334 14.8986 14.0358 13.203 15.286 11.9527C16.5362 10.7025 18.2319 10.0001 20 10.0001H60C61.7681 10.0001 63.4638 10.7025 64.7141 11.9527C65.9643 13.203 66.6667 14.8986 66.6667 16.6668V63.3334C66.6667 65.1015 65.9643 66.7972 64.7141 68.0475C63.4638 69.2977 61.7681 70.0001 60 70.0001H20C18.2319 70.0001 16.5362 69.2977 15.286 68.0475C14.0358 66.7972 13.3334 65.1015 13.3334 63.3334V16.6668ZM26.6667 26.6668C26.6667 25.7827 27.0179 24.9349 27.643 24.3097C28.2681 23.6846 29.116 23.3334 30 23.3334H50C50.8841 23.3334 51.7319 23.6846 52.3571 24.3097C52.9822 24.9349 53.3334 25.7827 53.3334 26.6668V30.0001C53.3334 30.8841 52.9822 31.732 52.3571 32.3571C51.7319 32.9822 50.8841 33.3334 50 33.3334H30C29.116 33.3334 28.2681 32.9822 27.643 32.3571C27.0179 31.732 26.6667 30.8841 26.6667 30.0001V26.6668Z" stroke="#AAAAAA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="col-12 text-center " style="left: 53%; top: 50%;">
+                        <h5 style="color: var(--Neutral-60, #AAA);">The calculation results will be displayed here</h5>
+                        <div id="results">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+       
+        
+    </div>
+		</div>
+	</div>
+</div>
+<progress max="100" value="0"></progress>
+{% endblock %}
+{% block extra_js %}
+<script>
+  $(document).ready(function() {
+    $('.thisis').selectize();
+    $('.thisthat').selectize({ sortField: 'text' });
+});
+</script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  
+  gsap.to('progress', {
+      value: 100,
+      ease: 'none',
+      scrollTrigger: { scrub: 0.3 }
+  });
+</script>
+
+
+
+{% endblock%}

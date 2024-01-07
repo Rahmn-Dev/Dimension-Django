@@ -1,62 +1,386 @@
-<!DOCTYPE html>
 
-<html
- 
-lang="en">
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% block extra_css %}
+<style>
+  @keyframes beat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+.it {
+    border-radius: 14px;
+    background: white;
+   
+    padding: 33px 22px;
+    gap: 20px;
+   
+    transition: box-shadow 0.3s ease-in-out;
+}
 
-<head>
-
+.it:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     
-<meta
- 
-charset="UTF-8">
 
-    
-<meta
- 
-name="viewport"
- 
-content="width=device-width, initial-scale=1.0">
+}
 
-    
-<title>Hasil Knapsack Greedy</title>
-</head>
-<body>
-    <h1>Hasil Knapsack Greedy</h1>
-    <h2>Container: {{ selected_container.name }}</h2>
-    <p>Kapasitas berat: {{ selected_container.capacity_weight }}</p>
-    <p>Kapasitas panjang: {{ selected_container.capacity_length }}</p>
-    <p>Kapasitas lebar: {{ selected_container.capacity_width }}</p>
-    <h3>Barang yang dimasukkan:</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Nama Barang</th>
-                <th>Harga</th>
-                <th>Berat</th>
-                <th>Panjang</th>
-                <th>Lebar</th>
-                <th>Nilai</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in selected_items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.price }}</td>
-                <td>{{ item.weight }}</td>
-                <td>{{ item.length }}</td>
-                <td>{{ item.width }}</td>
-                <td>{{ item.value }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <p>Nilai total barang yang dimasukkan: {{ total_value }}</p>
-    <p>Total harga barang yang dimasukkan: {{ total_price }}</p>
-    <hr>
-    <h3>Truck yang dapat digunakan: {{ selected_truck.name }}, dengan kapasitas berat: {{ selected_truck.capacity_weight }}</h3>
-    
-    <a href="{% url 'knapsack_form' %}">Back to Knapsack Form</a>
-</body>
-</html>
+.back .fa-arrow-left {
+    transition: transform 0.5s ease;
+}
+
+.back:hover .fa-arrow-left {
+    animation: beat 1s infinite;
+    transform: scale(1.2);
+}
+progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border: none;
+  background: transparent;
+}
+progress::-webkit-progress-bar {
+  background: transparent;
+}
+progress::-webkit-progress-value {
+  background: linear-gradient(to left,#0d41e1,#07c8f9);
+  background-attachment: fixed;
+}
+progress::-moz-progress-bar {
+  background: linear-gradient(to left, #0d41e1,#07c8f9);
+  background-attachment: fixed;
+}
+.dataTables_filter{
+    display: none;
+ }
+ .dataTables_paginate{
+    font-size:10px;
+ }
+ .dataTables_info{
+    font-size:14px;
+ }
+ .dataTables_length{
+    display: none;
+ }
+.paginate_button current{
+    background-color: #428DFC;
+    color: white;
+}
+ .dataTables_wrapper .sorting,
+.dataTables_wrapper .sorting_asc,
+.dataTables_wrapper .sorting_desc {
+  background-image: none !important;
+  background-repeat: no-repeat !important;
+  background-position: center right !important;
+  padding-right: 0 !important;
+}
+
+.dataTables_wrapper .sorting:before,
+.dataTables_wrapper .sorting_asc:before,
+.dataTables_wrapper .sorting_desc:before {
+  content: none !important;
+}
+table.dataTable,
+table.dataTable thead th {
+  border: none;
+  border-radius: 5px;   
+    background: var(--Neutral-20, #F6F6F6);
+    color: var(--Neutral-80, #737373);
+}
+table.dataTable.no-footer{
+    border-bottom: 0px;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="container" style="padding:20px">
+	<div class="row" style="gap:30px">
+		<div class="col-12" style="margin-top:30px">
+			<div class="row">
+				<div class="col-6 col-md-6 col-sm-12"><a href="/" style="text-decoration:none;color:#000" class="back"><h5><i class="fa-solid fa-arrow-left"></i> Calculate</h5></a></div>
+				<div class="col-6 col-md-6 col-sm-12"></div>
+			</div>
+		</div>
+        
+		<div class="col-12">
+			<form id="form_id" method="post" >
+        {% csrf_token %}
+				<div class="row" id="row1" style="display:flex;align-items:flex-end;align-self:stretch;justify-content:center;align-content:center;flex-direction:row">
+					<div class="col-md-5 col-sm-12 col-lg-5" style="padding:12px">
+						<div>
+							<div class="row d-flex justify-content-center align-items-center" style="position:relative">
+								<div class="col-12 col-sm-12 col-md-12">
+									<p>Items</p>
+								</div>
+								<div class="col-12 col-sm-12 col-md-12">
+                                    <select multiple name="items"  class=" thisthat"id="items" size="10">
+                                        {% for item in selected_items %}
+                                            <option value="{{ item.id }}">{{ item.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 col-sm-12 col-lg-5" style="padding:12px">
+						<div>
+							<div class="row d-flex justify-content-center align-items-center" style="position:relative">
+								<div class="col-12 col-sm-12 col-md-12">
+									<p>Container</p>
+								</div>
+								<div class="col-12 col-sm-12 col-md-12">
+                                    <select name="container" class="thisis" id="container">
+                                    {% for container in containers %}
+                                        <option value="{{ container.id }}">{{ container.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-12 col-lg-2" style="padding:12px">
+						<div>
+							<div class="row d-flex justify-content-center align-items-center" style="position:relative">
+								<div class="col-12 col-sm-12 col-md-12">
+									<button class="btn btn-primary btn-sm col-12" style="display:flex;padding:8px 16px;justify-content:center;align-items:center;gap:8px;border-radius:5px" type="submit">Calculate</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+        <div class="col-12" style="margin-top:10px">
+            <div class="row">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="2" viewBox="0 0 1100 2" fill="none">
+                    <path d="M0 1H1100" stroke="#E4E4E4"/>
+                  </svg>
+            </div>
+        </div>
+		<div class="col-12">
+			<div class="row" id="row1"  style="">
+        <div class="col-md-12 col-sm-12 col-lg-12" style="padding: 12px;">
+            <div class="card it" style="
+            border-radius: 14px;
+            background: #0d6efd;
+            padding: 5px;
+            align-items: center;
+            display: flex;
+            overflow: hidden;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-content: center;
+            justify-content: flex-start;
+            
+            ">
+                <div class="row" style="position: relative; " >
+                
+                    <div class="col-12" style="
+                    margin-left: 10px;
+                ">
+                        
+                            <p style="color: white;margin-top: 10px;margin-bottom: 10px;"><i class="fa-regular fa-circle-check" style="color: white;"></i> You can use a <b>{{ selected_truck.name }}</b> truck with a weight capacity of {{ selected_truck.capacity_weight }} KG</p>
+                       
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+		<div class="col-12">
+			<div class="row" id="row1"  style="">
+                <div class="col-md-12 col-sm-12 col-lg-12" style="padding: 12px;">
+                    <div class="card it">
+                        <div class="row ">
+                        
+                            <div class="col-12 col-sm-12 col-lg-12 col-md-12 " style="display: flex;">
+                                <h5 style="display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                flex: 1 0 0; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 7.5L12 3L4 7.5M20 7.5V16.5L12 21M20 7.5L12 12M12 21L4 16.5V7.5M12 21V12M4 7.5L12 12M8.20001 9.8L15.8 5.2" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>Selected Items</h5>
+                            </div>
+                    
+                        </div>
+                        <div
+                            class="row"
+                            style="
+                                border-radius: 5px;
+        
+                                gap: 20px;
+                                align-self: stretch;
+                                display: flex;
+                            "
+                        >
+                            <div class="col-12 col-md-12 col-sm-12">
+                                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                    <table class="table my-0 data" id="data" style="border-bottom: 0px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Name</th>
+                                                <th style="width: 50.203px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Qty</th>
+                                                <th style="width: 50.969px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Weight</th>
+                                                <th style="width: 50.922px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Length</th>
+                                                <th style="width: 50.359px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Width</th>
+                                                <th style="width: 70.266px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Price</th>
+        
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in selected_items %}
+                                            <tr style="border-color: #c1bfbf;">
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.name }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.value|floatformat:0 }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.weight }} KG</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.length }} M</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.width|intcomma }} M</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">Rp.{{ item.price|floatformat:0|intcomma }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> 
+            </div>
+		</div>
+        <div class="col-12">
+            <div class="row" id="row3" >
+                <div class="col-md-6 col-sm-6 col-lg-6" style="padding: 12px;">
+                    <div class="card it h-100">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-sm-12" style="display: flex;">
+                                <h5 style="display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                flex: 1 0 0; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9.52592 21.5462L21.8667 14.6499V6.48324M9.52592 21.5462V13.3795M9.52592 21.5462L5.89629 19.5045M2.26666 9.2962V17.4629L5.89629 19.5045M2.26666 9.2962L5.89629 11.3379M2.26666 9.2962L14.6074 2.3999L21.8667 6.48324M9.52592 13.3795L5.89629 11.3379M9.52592 13.3795L21.8667 6.48324M5.89629 11.3379V19.5045" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg> Containers {{ selected_container.name }}</h5>
+                            </div>
+                            
+                        </div>
+                        <div
+                            class="row"
+                            style="
+                                border-radius: 5px;
+        
+                                gap: 20px;
+                                align-self: stretch;
+                                display: flex;
+                            "
+                        >
+                            <div class="col-12 col-md-12 col-sm-12">
+                               <div class="row">
+                                    <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                        <p style="font-weight: 400; color: var(--Neutral-80, #737373); font-size: 12px;
+                                        font-style: normal;">Capacity Weight</p>
+                                    </div>
+                                    <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                        <p style="font-weight: 400; text-align: right; font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ selected_container.capacity_weight }} KG</p>
+                                    </div>
+                               </div>
+                               <div class="row">
+                                    <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                        <p style="font-weight: 400; color: var(--Neutral-80, #737373); font-size: 12px;
+                                        font-style: normal;">Capacity Length</p>
+                                    </div>
+                                    <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                        <p style="font-weight: 400; text-align: right;font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ selected_container.capacity_length }} M</p>
+                                    </div>
+                               </div>
+                               <div class="row">
+                                    <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                        <p style="font-weight: 400; color: var(--Neutral-80, #737373); font-size: 12px;
+                                        font-style: normal;">Capacity Width</p>
+                                    </div>
+                                    <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                        <p style="font-weight: 400; text-align: right;font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ selected_container.capacity_width }} M</p>
+                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6" style="padding: 12px;">
+                    <div class="card it h-100">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-sm-12" style="display: flex;">
+                                <h5 style="display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                flex: 1 0 0; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 17C5 17.5304 5.21071 18.0391 5.58579 18.4142C5.96086 18.7893 6.46957 19 7 19C7.53043 19 8.03914 18.7893 8.41421 18.4142C8.78929 18.0391 9 17.5304 9 17M5 17C5 16.4696 5.21071 15.9609 5.58579 15.5858C5.96086 15.2107 6.46957 15 7 15C7.53043 15 8.03914 15.2107 8.41421 15.5858C8.78929 15.9609 9 16.4696 9 17M5 17H3V13M9 17H15M15 17C15 17.5304 15.2107 18.0391 15.5858 18.4142C15.9609 18.7893 16.4696 19 17 19C17.5304 19 18.0391 18.7893 18.4142 18.4142C18.7893 18.0391 19 17.5304 19 17M15 17C15 16.4696 15.2107 15.9609 15.5858 15.5858C15.9609 15.2107 16.4696 15 17 15C17.5304 15 18.0391 15.2107 18.4142 15.5858C18.7893 15.9609 19 16.4696 19 17M19 17H21V11M2 5H13V17M21 11H13M21 11L18 6H13M3 9H7" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg> {{selected_truck.name}}</h5>
+                            </div>
+                           
+                        </div>
+                        <div
+                            class="row"
+                            style="
+                                border-radius: 5px;
+        
+                                gap: 20px;
+                                align-self: stretch;
+                                display: flex;
+                            "
+                        >
+                        <div class="col-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                 <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                     <p style="font-weight: 400; color: var(--Neutral-80, #737373); font-size: 12px;
+                                     font-style: normal;">Capacity Weight</p>
+                                 </div>
+                                 <div class="col-6 col-md-6 col-sm-6 col-lg-6">
+                                     <p style="font-weight: 400; text-align: right; font-size: 12px; color: var(--Neutral-100, #1E1E1E);">{{ selected_truck.capacity_weight }} KG</p>
+                                 </div>
+                            </div>
+                            
+                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<progress max="100" value="0"></progress>
+{% endblock %}
+{% block extra_js %}
+<script>
+  $(document).ready(function() {
+    $('.thisis').selectize();
+    $('.thisthat').selectize({ sortField: 'text' });
+    var usertable = $('#data').DataTable({
+        paging: false,
+        info: false
+      });
+      
+});
+
+</script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  
+  gsap.to('progress', {
+      value: 100,
+      ease: 'none',
+      scrollTrigger: { scrub: 0.3 }
+  });
+</script>
+
+
+
+{% endblock%}

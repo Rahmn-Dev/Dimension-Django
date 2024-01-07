@@ -347,12 +347,12 @@
                                     <table class="table my-0 data" id="data" style="border-bottom: 0px;">
                                         <thead>
                                             <tr>
-                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf;">Name</th>
-                                                <th style="width: 50.203px; font-size: 12px; border-bottom: 1px #c1bfbf;">Qty</th>
-                                                <th style="width: 50.969px; font-size: 12px; border-bottom: 1px #c1bfbf;">Weight</th>
-                                                <th style="width: 50.922px; font-size: 12px; border-bottom: 1px #c1bfbf;">Length</th>
-                                                <th style="width: 50.359px; font-size: 12px; border-bottom: 1px #c1bfbf;">Width</th>
-                                                <th style="width: 70.266px; font-size: 12px; border-bottom: 1px #c1bfbf;">Price</th>
+                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Name</th>
+                                                <th style="width: 50.203px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Qty</th>
+                                                <th style="width: 50.969px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Weight</th>
+                                                <th style="width: 50.922px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Length</th>
+                                                <th style="width: 50.359px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Width</th>
+                                                <th style="width: 70.266px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Price</th>
         
                                                 <th style="width: 30.266px; font-size: 12px; border-bottom: 1px #c1bfbf; padding-right: 30px;"><i class="fa-solid fa-rocket"></i></th>
                                             </tr>
@@ -360,12 +360,12 @@
                                         <tbody>
                                             {% for item in items %}
                                             <tr style="border-color: #c1bfbf;">
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.name }}</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.value|floatformat:0 }}</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.weight }} KG</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.length }} M</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.width }} M</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">Rp.{{ item.price|floatformat:0|intcomma }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.name }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.value|floatformat:0 }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.weight|intcomma }} KG</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.length|intcomma }} M</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.width|intcomma }} M</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">Rp.{{ item.price|floatformat:0|intcomma }}</td>
         
                                                 <td style="font-size: 12px;">
                                                     <div class="dropdown no-arrow text-center">
@@ -427,10 +427,10 @@
                                     <table class="table my-0 data" id="data2" style="border-bottom: 0px;">
                                         <thead>
                                             <tr>
-                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf;">Name</th>
-                                                <th style="width: 40.203px; font-size: 12px; border-bottom: 1px #c1bfbf;">Cap Weight</th>
-                                                <th style="width: 40.969px; font-size: 12px; border-bottom: 1px #c1bfbf;">Cap Length</th>
-                                                <th style="width: 40.922px; font-size: 12px; border-bottom: 1px #c1bfbf;">Cap Width</th>
+                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Name</th>
+                                                <th style="width: 40.203px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Cap Weight</th>
+                                                <th style="width: 40.969px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Cap Length</th>
+                                                <th style="width: 40.922px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Cap Width</th>
                                                 
         
                                                 <th style="width: 30.266px; font-size: 12px; border-bottom: 1px #c1bfbf; padding-right: 30px;"><i class="fa-solid fa-rocket"></i></th>
@@ -439,10 +439,10 @@
                                         <tbody>
                                             {% for item in containers %}
                                             <tr style="border-color: #c1bfbf;">
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.name }}</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.capacity_weight|floatformat:0 }} KG</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.capacity_length }} M</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.capacity_width }} M</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.name }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.capacity_weight|floatformat:0|intcomma }} KG</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.capacity_length|intcomma }} M</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.capacity_width|intcomma }} M</td>
                                               
                                                 <td style="font-size: 12px;">
                                                     <div class="dropdown no-arrow text-center">
@@ -500,8 +500,8 @@
                                     <table class="table my-0 data" id="data3" style="border-bottom: 0px;">
                                         <thead>
                                             <tr>
-                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf;">Name</th>
-                                                <th style="width: 40.203px; font-size: 12px; border-bottom: 1px #c1bfbf;">Capacity Weight</th>
+                                                <th style="width: 210.797px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Name</th>
+                                                <th style="width: 40.203px; font-size: 12px; border-bottom: 1px #c1bfbf; font-weight: 400;">Capacity Weight</th>
     
                                                 
         
@@ -511,8 +511,8 @@
                                         <tbody>
                                             {% for item in trucks %}
                                             <tr style="border-color: #c1bfbf;">
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.name }}</td>
-                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e);">{{ item.capacity_weight|floatformat:0 }} KG</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.name }}</td>
+                                                <td style="font-size: 12px; color: var(--Neutral-100, #1e1e1e); font-weight: 400;">{{ item.capacity_weight|floatformat:0|intcomma }} KG</td>
                                                       
                                                 <td style="font-size: 12px;">
                                                     <div class="dropdown no-arrow text-center">
@@ -558,9 +558,18 @@
 
 <script>
     $(document).ready(function(){
-		var usertable = $('#data').DataTable();
-		 $('#data2').DataTable();
-		 $('#data3').DataTable();
+		var usertable = $('#data').DataTable({
+            paging: false,
+            info: false
+          });
+		 $('#data2').DataTable({
+            paging: false,
+            info: false
+          });
+		 $('#data3').DataTable({
+            paging: false,
+            info: false
+          });
 	});
     function navigateToUrls(url) {
         Swal.fire({

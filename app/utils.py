@@ -56,17 +56,29 @@ def knapsack_greedy_algorithm(items, container):
     remaining_capacity_width = container.capacity_width
 
     sorted_items = sorted(items, key=lambda x: x.value / x.weight, reverse=True)
+    # for item in sorted_items:
+    #     if (
+    #         item.weight <= remaining_capacity_weight
+    #         and item.length <= remaining_capacity_length
+    #         and item.width <= remaining_capacity_width
+    #     ):
+    #         selected_items.append(item)
+    #         remaining_capacity_weight -= item.weight
+    #         remaining_capacity_length -= item.length
+    #         remaining_capacity_width -= item.width
 
+    # return selected_items, container
+    
     for item in sorted_items:
         if (
-            item.weight <= remaining_capacity_weight
-            and item.length <= remaining_capacity_length
-            and item.width <= remaining_capacity_width
+            item.weight * item.value <= remaining_capacity_weight
+            and item.length * item.value <= remaining_capacity_length
+            and item.width * item.value <= remaining_capacity_width
         ):
             selected_items.append(item)
-            remaining_capacity_weight -= item.weight
-            remaining_capacity_length -= item.length
-            remaining_capacity_width -= item.width
+            remaining_capacity_weight -= item.weight * item.value
+            remaining_capacity_length -= item.length * item.value
+            remaining_capacity_width -= item.width * item.value
 
     return selected_items, container
 

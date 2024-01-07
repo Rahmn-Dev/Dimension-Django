@@ -3,8 +3,9 @@ from .forms import ItemForm, ContainerForm, KnapsackForm, TruckForm
 from .utils import knapsack_greedy_algorithm
 from .models import Item, Container, Truck
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+
 
 @login_required
 def dashboard(request):
@@ -92,7 +93,9 @@ def knapsack_form(request):
     form = KnapsackForm(request.POST)
     if form.is_valid():
         container = form.cleaned_data['container']
-        items = Item.objects.all()
+        selected_items_ids = form.cleaned_data['items']  # Dapatkan item yang dipilih
+        items = Item.objects.filter(id__in=selected_items_ids)
+        # items = Item.objects.all()
         selected_items, selected_container = knapsack_greedy_algorithm(items, container)
         
         selected_truck = None
@@ -100,9 +103,11 @@ def knapsack_form(request):
             if truck.capacity_weight >= sum(item.weight for item in selected_items):
                 selected_truck = truck
                 break
-            
+        
         total_value = sum(item.value for item in selected_items)
-        total_price = sum(item.price for item in selected_items)
+        # total_price = sum(item.price for item in selected_items)
+        # total_value = sum(item.value * item.value for item in selected_items)
+        total_price = sum(item.price * item.value for item in selected_items)
 
 
         return render(request, 'results.html', {
@@ -112,6 +117,13 @@ def knapsack_form(request):
             'total_price': total_price,
             'selected_truck': selected_truck,
         })
+        # return JsonResponse({
+        #         'selected_items': [item.name for item in selected_items], 
+        #         'selected_container': selected_container.name,  
+        #         'total_value': total_value,
+        #         'total_price': total_price,
+        #         'selected_truck': selected_truck.name if selected_truck else None  
+        #     })
 
     return render(request, 'knapsack_form.html', {'form': form})
 
