@@ -180,7 +180,7 @@ table.dataTable.no-footer{
 								<div class="col-12 col-sm-12 col-md-12">
                                     <select multiple name="items"  class=" thisthat"id="items" size="10">
                                         {% for item in selected_items %}
-                                            <option value="{{ item.id }}">{{ item.name }}</option>
+                                            <option value="{{ item.id }}" selected>{{ item.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -195,9 +195,8 @@ table.dataTable.no-footer{
 								</div>
 								<div class="col-12 col-sm-12 col-md-12">
                                     <select name="container" class="thisis" id="container">
-                                    {% for container in containers %}
-                                        <option value="{{ container.id }}">{{ container.name }}</option>
-                                    {% endfor %}
+                                    
+                                        <option value="{{ selected_container.id }}" selected>{{ selected_container.name }}</option>
                                     </select>
                                 </div>
 							</div>

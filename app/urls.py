@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import knapsack_form, item_form, container_form, truck_form, item_form_delete, container_form_delete, truck_form_delete, dashboard
+from .views import knapsack_form, item_form, container_form, truck_form, item_form_delete, container_form_delete, truck_form_delete, dashboard, edititem_form, editContainer_form, editTruck_form
 from . import api
 from django.contrib.auth.views import LoginView,LogoutView
 from django.contrib.auth import views as auth_views
@@ -28,13 +28,13 @@ urlpatterns = [
     path('', dashboard, name='dashboard'),
     # path('knapsack/result/', knapsack_result, name='knapsack_result'),
     path('knapsack/item/', item_form, name='item_form'),
-    path('knapsack/item/edit/<int:pk>/', item_form, name='item_form_edit'),
+    path('knapsack/item/edit/<int:pk>/', edititem_form, name='item_form_edit'),
     path('knapsack/item/delete/<int:pk>/', item_form_delete, name='item_form_delete'),
     path('knapsack/container/', container_form, name='container_form'),
-    path('knapsack/container/edit/<int:pk>/', item_form, name='container_form_edit'),
+    path('knapsack/container/edit/<int:pk>/', editContainer_form, name='container_form_edit'),
     path('knapsack/container/delete/<int:pk>/', container_form_delete, name='container_form_delete'),
     path('knapsack/truck/', truck_form, name='truck_form'),
-    path('knapsack/truck/edit/<int:pk>/', item_form, name='truck_form_edit'),
+    path('knapsack/truck/edit/<int:pk>/', editTruck_form, name='truck_form_edit'),
     path('knapsack/truck/delete/<int:pk>/', truck_form_delete, name='truck_form_delete'),
    
 ]

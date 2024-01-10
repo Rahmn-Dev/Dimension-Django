@@ -329,7 +329,7 @@
                                 <h5>Items</h5>
                             </div>
                             <div class="col-6 col-md-6 col-sm-6" style="display: flex; justify-content: flex-end;">
-                                <button class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px; border: 1px solid var(--Neutral-40, #e4e4e4); background: var(--Neutral-10, #fff);"><i class="fa-solid fa-plus"></i> Add Item</button>
+                                <button hx-get="/knapsack/item/" hx-debug="true" hx-target="#edit-modal" hx-trigger="click" data-bs-target="#edit-modal" data-bs-toggle="modal"  class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px; border: 1px solid var(--Neutral-40, #e4e4e4); background: var(--Neutral-10, #fff);"><i class="fa-solid fa-plus"></i> Add Item</button>
                             </div>
                         </div>
                         <div
@@ -409,7 +409,7 @@
                                 <h5>Containers</h5>
                             </div>
                             <div class="col-6 col-md-6 col-sm-6" style="display: flex; justify-content: flex-end;">
-                                <button class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px; border: 1px solid var(--Neutral-40, #e4e4e4); background: var(--Neutral-10, #fff);"><i class="fa-solid fa-plus"></i> Add Container</button>
+                                <button hx-get="/knapsack/container/" hx-trigger="click" data-bs-target="#edit-modal" hx-target="#edit-modal" data-bs-toggle="modal" class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px; border: 1px solid var(--Neutral-40, #e4e4e4); background: var(--Neutral-10, #fff);"><i class="fa-solid fa-plus"></i> Add Container</button>
                             </div>
                         </div>
                         <div
@@ -452,7 +452,7 @@
                                                         <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
                                                             <button
                                                                 class="dropdown-item"
-                                                                hx-get="/knapsack/container/edit/{{ item.id }}"
+                                                                hx-get="/knapsack/container/edit/{{ item.id }}/"
                                                                 hx-trigger="click"
                                                                 data-bs-target="#edit-modal"
                                                                 hx-target="#edit-modal"
@@ -482,7 +482,7 @@
                                 <h5>Trucks</h5>
                             </div>
                             <div class="col-6 col-md-6 col-sm-6" style="display: flex; justify-content: flex-end;">
-                                <button class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px; border: 1px solid var(--Neutral-40, #e4e4e4); background: var(--Neutral-10, #fff);"><i class="fa-solid fa-plus"></i> Add Truck</button>
+                                <button hx-get="/knapsack/truck/" hx-trigger="click" data-bs-target="#edit-modal" hx-target="#edit-modal" data-bs-toggle="modal" class="btn buthov btn-sm" style="padding: 4px 16px; border-radius: 5px; border: 1px solid var(--Neutral-40, #e4e4e4); background: var(--Neutral-10, #fff);"><i class="fa-solid fa-plus"></i> Add Truck</button>
                             </div>
                         </div>
                         <div
@@ -522,7 +522,7 @@
                                                         <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
                                                             <button
                                                                 class="dropdown-item"
-                                                                hx-get="/knapsack/truck/edit/{{ item.id }}"
+                                                                hx-get="/knapsack/truck/edit/{{ item.id }}/"
                                                                 hx-trigger="click"
                                                                 data-bs-target="#edit-modal"
                                                                 hx-target="#edit-modal"
@@ -551,6 +551,13 @@
     </div>
 
 </div>
+<div id="edit-modal" class="modal fade" role="dialog" tabindex="-1" style="align-items: center; backdrop-filter: blur(3px);">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 16px;">
+            
+        </div>
+    </div>
+</div>
 <progress max="100" value="0"></progress>
 {% endblock %}
 {% block extra_js %}
@@ -558,6 +565,7 @@
 
 <script>
     $(document).ready(function(){
+        
 		var usertable = $('#data').DataTable({
             paging: false,
             info: false
@@ -597,6 +605,18 @@
             });
           }
         });
+    }
+    function sendingdata() {
+        Swal.fire({
+          icon: 'success',
+          title: 'Data berhasil',
+        
+        }).then((result) => {
+          
+            window.location.reload();
+          
+        }
+        );
     }
 </script>
 <script>

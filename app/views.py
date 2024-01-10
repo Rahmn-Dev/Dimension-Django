@@ -17,14 +17,28 @@ def dashboard(request):
 
 @login_required
 def item_form(request):
+    form = ItemForm()
     if request.method == 'POST':
         form = ItemForm(request.POST)
         if form.is_valid():
+            # formis = form.commit(false)
             form.save()
-            return redirect('item_form')
+            # return redirect('item_form')
 
     items = Item.objects.all()
-    return render(request, 'item/item_form.html', {'form': ItemForm(), 'items': items})
+    # return render(request, 'item/item_form.html', {'form': ItemForm(), 'items': items})
+    return render(request, 'form/modal_item.html', {'form': form,})
+
+def edititem_form(request, pk):
+    edititem = Item.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ItemForm(request.POST or None, instance = edititem)
+        if form.is_valid():
+            form.save()
+            # return redirect('dashboard')
+    else:
+        form = ItemForm(request.POST or None, instance = edititem)
+    return render(request, 'form/edit_modal_item.html', {'form': form, 'edit': edititem} )
 
 @login_required
 def item_form_delete(request, pk):
@@ -41,14 +55,27 @@ def item_form_delete(request, pk):
 
 @login_required
 def container_form(request):
+    form = ContainerForm()
     if request.method == 'POST':
         form = ContainerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('container_form')
+            # return redirect('container_form')
 
     containers = Container.objects.all()
-    return render(request, 'container/container_form.html', {'form': ContainerForm(), 'containers': containers})
+    # return render(request, 'container/container_form.html', {'form': ContainerForm(), 'containers': containers})
+    return render(request, 'form/modal_container.html', {'form': form})
+
+def editContainer_form(request, pk):
+    editContainer = Container.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ContainerForm(request.POST or None, instance = editContainer)
+        if form.is_valid():
+            form.save()
+            # return redirect('dashboard')
+    else:
+        form = ContainerForm(request.POST or None, instance = editContainer)
+    return render(request, 'form/edit_modal_container.html', {'form': form, 'edit': editContainer} )
 
 @login_required
 def container_form_delete(request, pk):
@@ -73,8 +100,19 @@ def truck_form(request):
             return redirect('truck_form')
     else:
         form = TruckForm()
-    return render(request, 'truck/truck_form.html', {'form': form, 'trucks': trucks})
+    # return render(request, 'truck/truck_form.html', {'form': form, 'trucks': trucks})
+    return render(request, 'form/modal_truck.html', {'form': form, })
 
+def editTruck_form(request, pk):
+    edittruck = Truck.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = TruckForm(request.POST or None, instance = edittruck)
+        if form.is_valid():
+            form.save()
+            # return redirect('dashboard')
+    else:
+        form = TruckForm(request.POST or None, instance = edittruck)
+    return render(request, 'form/edit_modal_truck.html', {'form': form, 'edit': edittruck} )
 @login_required
 def truck_form_delete(request, pk):
     truck = Truck.objects.get(pk= pk)
@@ -116,6 +154,7 @@ def knapsack_form(request):
             'total_value': total_value,
             'total_price': total_price,
             'selected_truck': selected_truck,
+            
         })
         # return JsonResponse({
         #         'selected_items': [item.name for item in selected_items], 
