@@ -1,5 +1,7 @@
 # Dimension App
-![image](https://github.com/Rahmn-Dev/Dimension-Django/assets/66931894/fe29b3c3-088b-4379-aad5-cfde925ed06c)
+![image](https://github.com/Rahmn-Dev/Dimension-Django/assets/66931894/e539cc22-0d27-4428-bad5-76cebacb4289)
+
+
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -11,6 +13,7 @@
 - [License](#license)
 
 ## Introduction
+![image](https://github.com/Rahmn-Dev/Dimension-Django/assets/66931894/fe29b3c3-088b-4379-aad5-cfde925ed06c)
 Welcome to Dimension, a powerful application built using Django that leverages the Knapsack Greedy algorithm in Python. Dimension is designed to provide efficient solutions to optimization problems, specifically those modeled as the Knapsack problem.
 
 ## Features
